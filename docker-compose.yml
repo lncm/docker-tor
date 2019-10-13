@@ -1,0 +1,7 @@
+version: '3.7'
+services:
+  tor:
+    image: nolim1t/tor:latest
+    volumes:
+      - /home/lncm/tor-data:/var/lib/tor
+    network_mode: host

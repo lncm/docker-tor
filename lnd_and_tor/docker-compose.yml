@@ -1,0 +1,18 @@
+version: '3.7'
+services:
+  tor:
+    image: nolim1t/tor:latest
+    volumes:
+      - /home/lncm/tor-data:/var/lib/tor
+      - /etc/tor:/etc/tor
+    network_mode: host
+    restart: always
+  lnd:
+    image: lncm/lnd:0.7.1-experimental-watchtower-neutrino
+    volumes:
+      - /home/lncm/.lnd:/root/.lnd/lncm
+      - /home/lncm/tor-data:/var/lib/tor
+    depends_on:
+      - tor
+    network_mode: host
+    restart: always
