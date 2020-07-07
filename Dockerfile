@@ -1,11 +1,10 @@
-FROM alpine:3.8
-# Use Alpine 3.8 because any higher doesn't build on the Zero
+FROM alpine:3.11
 
-EXPOSE 8118 9050 9051
+RUN apk add --no-cache tor
 
-RUN apk --update add tor runit tini
+VOLUME /etc/tor/
+VOLUME /var/lib/tor/
 
-COPY service /etc/service/
+EXPOSE 9050 9051 29050 29051
 
-ENTRYPOINT ["tini", "--"]
-CMD ["runsvdir", "/etc/service"]
+ENTRYPOINT ["tor"]
