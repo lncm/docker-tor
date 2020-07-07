@@ -50,7 +50,7 @@ jobs:
                                   --tag ${{ secrets.DOCKER_HUB_USER }}/tor:branch-$BRANCH \
                                   --output "type=registry" .
 
-                        - name: build lnd-unlock against latest (tor)
+                        - name: build TOR against latest
                           run: |
                                   docker buildx build \
                                   --cache-from "type=local,src=/tmp/.buildx-cache" \
