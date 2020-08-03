@@ -44,7 +44,7 @@ WORKDIR /tor-$VERSION/
 
 COPY  --from=preparer /tor-$VERSION/  ./
 
-RUN ./configure
+RUN ./configure --enable-static-tor
 RUN make
 RUN make install
 
