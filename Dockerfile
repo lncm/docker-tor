@@ -5,8 +5,6 @@ ARG UID=1000
 
 ARG DIR=/data
 
-ARG SOURCE=release
-
 FROM debian:buster-slim as preparer-base
 
 RUN apt update
@@ -33,7 +31,7 @@ RUN gpg --verify tor-$VERSION.tar.gz.asc
 RUN tar -xzf "/tor-$VERSION.tar.gz" && \
     rm  -f   "/tor-$VERSION.tar.gz"
 
-FROM preparer-${SOURCE} AS preparer
+FROM preparer-release AS preparer
 
 FROM debian:buster-slim as builder
 
@@ -47,3 +45,33 @@ WORKDIR /tor-$VERSION/
 COPY  --from=preparer /tor-$VERSION/  ./
 
 RUN ./configure
+RUN make
+RUN make install
+
+FROM debian:buster-slim as final
+
+ARG VERSION
+ARG USER
+ARG DIR
+
+LABEL maintainer="nolim1t (@nolim1t)"
+
+COPY  --from=builder /usr/local/bin/tor*  /usr/local/bin/
+COPY  --from=builder /usr/local/share/tor /usr/local/share/tor
+COPY  --from=builder /usr/local/share/man/man1 /usr/local/share/man/man1
+
+# NOTE: Default GID == UID == 1000
+RUN adduser --disabled-password \
+            --home "$DIR/" \
+            --gecos "" \
+            "$USER"
+USER $USER
+
+COPY  --from=builder /usr/local/etc/tor  /usr/local/etc
+
+RUN mkdir -p "/etc/tor"
+VOLUME /etc/tor
+
+EXPOSE 9050 9051 29050 29051
+
+ENTRYPOINT ["tor"]
