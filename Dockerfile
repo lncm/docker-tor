@@ -44,13 +44,14 @@ WORKDIR /tor-$VERSION/
 
 COPY  --from=preparer /tor-$VERSION/  ./
 
-RUN ./configure --sysconfdir=/etc/tor --datadir=/var/lib
+RUN ./configure --sysconfdir=/etc --datadir=/var/lib
 RUN make
 RUN make install
 
-RUN ls /etc
-RUN ls /etc/tor
-RUN ls /var/lib
+RUN ls -la /etc
+RUN ls -la /etc/tor
+RUN ls -la /var/lib
+RUN ls -la /var/lib/tor
 
 FROM debian:buster-slim as final
 
@@ -60,14 +61,10 @@ ARG DIR
 
 LABEL maintainer="nolim1t (@nolim1t)"
 
+# Libraries (linked)
 COPY  --from=builder /usr/lib /usr/lib
 # Copy all the TOR files
 COPY  --from=builder /usr/local/bin/tor*  /usr/local/bin/
-COPY  --from=builder /usr/local/share/tor /usr/local/share/tor
-COPY  --from=builder /usr/local/share/man/man1 /usr/local/share/man/man1
-
-RUN mkdir /etc/tor
-COPY  --from=builder /etc/tor/torrc  /etc/tor/torrc
 
 # NOTE: Default GID == UID == 1000
 RUN adduser --disabled-password \
