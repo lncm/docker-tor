@@ -61,8 +61,7 @@ COPY  --from=builder /usr/lib /usr/lib
 COPY  --from=builder /usr/local/bin/tor*  /usr/local/bin/
 COPY  --from=builder /usr/local/share/tor /usr/local/share/tor
 COPY  --from=builder /usr/local/share/man/man1 /usr/local/share/man/man1
-COPY  --from=builder /usr/local/etc/tor  /etc/tor
-COPY  --from=builder /usr/local/etc/tor  /usr/local/etc
+COPY  --from=builder /etc/tor  /etc/tor
 
 # NOTE: Default GID == UID == 1000
 RUN adduser --disabled-password \
