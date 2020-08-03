@@ -69,8 +69,8 @@ USER $USER
 
 COPY  --from=builder /usr/local/etc/tor  /usr/local/etc
 
-RUN mkdir -p "/etc/tor"
 VOLUME /etc/tor
+VOLUME /var/lib/tor/
 
 EXPOSE 9050 9051 29050 29051
 
