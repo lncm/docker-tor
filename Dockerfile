@@ -44,7 +44,9 @@ WORKDIR /tor-$VERSION/
 
 COPY  --from=preparer /tor-$VERSION/  ./
 
-RUN ./configure --enable-static-tor
+#RUN ./configure --with-libevent-dir=/usr/lib --with-openssl-dir=/usr/lib --with-zlib-dir=/usr/lib --enable-static-tor
+#RUN ./configure --enable-static-tor
+RUN ./configure 
 RUN make
 RUN make install
 
@@ -56,6 +58,8 @@ ARG DIR
 
 LABEL maintainer="nolim1t (@nolim1t)"
 
+COPY  --from=builder /usr/lib /usr/lib
+# Copy all the TOR files
 COPY  --from=builder /usr/local/bin/tor*  /usr/local/bin/
 COPY  --from=builder /usr/local/share/tor /usr/local/share/tor
 COPY  --from=builder /usr/local/share/man/man1 /usr/local/share/man/man1
@@ -69,8 +73,7 @@ RUN adduser --disabled-password \
             "$USER"
 USER $USER
 
-VOLUME /etc/tor
-VOLUME /var/lib/tor/
+VOLUME /usr/local/etc/tor
 
 EXPOSE 9050 9051 29050 29051
 
