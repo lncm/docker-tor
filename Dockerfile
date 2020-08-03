@@ -44,9 +44,7 @@ WORKDIR /tor-$VERSION/
 
 COPY  --from=preparer /tor-$VERSION/  ./
 
-#RUN ./configure --with-libevent-dir=/usr/lib --with-openssl-dir=/usr/lib --with-zlib-dir=/usr/lib --enable-static-tor
-#RUN ./configure --enable-static-tor
-RUN ./configure 
+RUN ./configure --sysconfdir=/etc/tor --datadir=/var/lib/tor
 RUN make
 RUN make install
 
@@ -73,7 +71,8 @@ RUN adduser --disabled-password \
             "$USER"
 USER $USER
 
-VOLUME /usr/local/etc/tor
+VOLUME /etc/tor
+VOLUME /var/lib/tor
 
 EXPOSE 9050 9051 29050 29051
 
