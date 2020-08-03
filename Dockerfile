@@ -39,6 +39,7 @@ FROM debian:buster-slim as builder
 
 ARG VERSION
 
+RUN apt update
 RUN apt -y install libevent-dev libssl-dev zlib1g-dev build-essential
 
 WORKDIR /tor-$VERSION/
