@@ -44,9 +44,13 @@ WORKDIR /tor-$VERSION/
 
 COPY  --from=preparer /tor-$VERSION/  ./
 
-RUN ./configure --sysconfdir=/etc --datadir=/var/lib
+RUN ./configure --sysconfdir=/etc/tor --datadir=/var/lib
 RUN make
 RUN make install
+
+RUN ls /etc
+RUN ls /etc/tor
+RUN ls /var/lib
 
 FROM debian:buster-slim as final
 
