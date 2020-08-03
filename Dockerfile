@@ -44,7 +44,7 @@ WORKDIR /tor-$VERSION/
 
 COPY  --from=preparer /tor-$VERSION/  ./
 
-RUN ./configure --sysconfdir=/etc/tor
+RUN ./configure --sysconfdir=/etc --datadir=/var/lib
 RUN make
 RUN make install
 
