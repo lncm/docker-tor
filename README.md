@@ -3,7 +3,7 @@
 
 [![Build on push](https://github.com/lncm/docker-tor/workflows/Docker%20build%20on%20push/badge.svg)](https://github.com/lncm/docker-tor/actions?query=workflow%3A%22Docker+build+on+push%22)
 [![Build on tag deploy](https://github.com/lncm/docker-tor/workflows/Docker%20build%20on%20tag/badge.svg)](https://github.com/lncm/docker-tor/actions?query=workflow%3A%22Docker+build+on+tag%22)
-![Version](https://img.shields.io/github/v/release/lncm/tor?sort=semver) 
+![Version](https://img.shields.io/github/v/release/lncm/docker-tor?sort=semver) 
 ![Docker Pulls Count](https://img.shields.io/docker/pulls/lncm/tor.svg?style=flat)
 
 TOR service as a docker container
