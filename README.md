@@ -10,11 +10,11 @@ TOR service as a docker container
 
 ## Usage instructions
 
-### Docker pull
+## Tags
 
-```bash
-docker pull lncm/tor:0.4.3.6
-```
+> **NOTE:** For an always up-to-date list see: https://hub.docker.com/r/lncm/tor/tags
+
+* `latest` `0.4.3.6` `0.4.4.4-rc`
 
 ## Maintainer release notes
 
