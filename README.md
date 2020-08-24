@@ -30,4 +30,24 @@ git tag -s 0.4.4.4-rc
 
 Would Release ```0.4.4.4-rc``` of tor
 
+## Running
+
+### Command Line
+
+To run this from the command line you would need to create an example [config file](https://github.com/torproject/tor/blob/master/src/config/torrc.sample.in)
+
+Then you would need to run:
+
+```bash
+docker run --rm -d \
+            --network host \
+            --name tor \
+            -v $PWD/data:/etc/tor \
+            -v $PWD/data:/var/lib/tor \
+            -v $PWD/run:/var/run/tor \
+            lncm/tor:0.4.4.4-rc
+
+```
+This assumes you have a directory called `data` and a directory called `run` in the current `$PWD`. And the config file `torrc` should live in data.
+
 
