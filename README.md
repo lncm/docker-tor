@@ -32,6 +32,8 @@ Would Release ```0.4.4.4-rc``` of tor
 
 ## Running
 
+> this assumes `0.4.4.4-rc` version. But you can substitute this for others
+
 ### Command Line
 
 To run this from the command line you would need to create an example [config file](https://github.com/torproject/tor/blob/master/src/config/torrc.sample.in)
