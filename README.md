@@ -50,4 +50,12 @@ docker run --rm -d \
 ```
 This assumes you have a directory called `data` and a directory called `run` in the current `$PWD`. And the config file `torrc` should live in data.
 
+### Generating TOR Passwords
+
+```bash
+docker run --rm \
+            --name tor \
+            lncm/tor:0.4.4.4-rc \
+            --hash-password passwordtogenerate
+```
 
