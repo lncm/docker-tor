@@ -14,7 +14,7 @@ TOR service as a docker container
 
 > **NOTE:** For an always up-to-date list see: https://hub.docker.com/r/lncm/tor/tags
 
-* `latest` `0.4.3.6` `0.4.4.4-rc`
+* `latest` `0.4.4.5` `0.4.4.4-rc` `0.4.3.6` 
 
 ## Maintainer release notes
 
@@ -28,7 +28,9 @@ Example:
 git tag -s 0.4.4.4-rc
 ```
 
-Would Release ```0.4.4.4-rc``` of tor
+Would Release ```0.4.4.4-rc``` of tor.
+
+As a maintainer, you should also update the documentation too.
 
 ## Running
 
