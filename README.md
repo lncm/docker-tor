@@ -6,7 +6,7 @@
 ![Version](https://img.shields.io/github/v/release/lncm/docker-tor?sort=semver) 
 ![Docker Pulls Count](https://img.shields.io/docker/pulls/lncm/tor.svg?style=flat)
 
-TOR service as a docker container
+TOR service as a docker container, supporting multiple platforms/architectures (armv6, armv7, arm64, amd64) the LNCM way (inclusive) 
 
 ## Usage instructions
 
@@ -14,7 +14,7 @@ TOR service as a docker container
 
 > **NOTE:** For an always up-to-date list see: https://hub.docker.com/r/lncm/tor/tags
 
-* `latest` `0.4.3.6` `0.4.4.4-rc`
+* `latest` `0.4.4.5` `0.4.4.4-rc` `0.4.3.6` 
 
 ## Maintainer release notes
 
@@ -25,14 +25,16 @@ To grab a new version simply just tag a new version
 Example:
 
 ```bash
-git tag -s 0.4.4.4-rc
+git tag -s 0.4.4.5
 ```
 
-Would Release ```0.4.4.4-rc``` of tor
+Would Release ```0.4.4.5``` of tor.
+
+As a maintainer, you should also update the documentation too.
 
 ## Running
 
-> this assumes `0.4.4.4-rc` version. But you can substitute this for others
+> this assumes `0.4.4.5` version. But you can substitute this for others
 
 ### Command Line
 
@@ -47,7 +49,7 @@ docker run --rm -d \
             -v $PWD/data:/etc/tor \
             -v $PWD/data:/var/lib/tor \
             -v $PWD/run:/var/run/tor \
-            lncm/tor:0.4.4.4-rc
+            lncm/tor:0.4.4.5
 
 ```
 This assumes you have a directory called `data` and a directory called `run` in the current `$PWD`. And the config file `torrc` should live in data.
@@ -63,7 +65,7 @@ By default this uses host networking and requires `data` and `run` folders to be
 ```bash
 docker run --rm \
             --name tor \
-            lncm/tor:0.4.4.4-rc \
+            lncm/tor:0.4.4.5 \
             --hash-password passwordtogenerate
 ```
 

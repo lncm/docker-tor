@@ -13,7 +13,7 @@ if [ $# -eq 0 ]; then
     echo "Usage: ${0} <password>"
     exit 1
 fi
-TORPASSWORD=`docker run --rm --name torpasswd lncm/tor:0.4.4.4-rc --hash-password $1`
+TORPASSWORD=`docker run --rm --name torpasswd lncm/tor:0.4.4.5 --hash-password $1`
 echo "Add to your torrc config"
 echo ""
 echo "HashedControlPassword ${TORPASSWORD}"
