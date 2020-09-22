@@ -72,7 +72,7 @@ jobs:
                                   --output "type=registry" .
                         
                         - name: Login to Github docker repository (because decentralization)
-                          run: echo "$GITHUB_TOKEN" | docker login docker.pkg.github.com -u "$GITHUB_ACTOR" --password-stdin
+                          run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u "$GITHUB_ACTOR" --password-stdin
                           
                         - name: Build against latest tag
                           run: |
