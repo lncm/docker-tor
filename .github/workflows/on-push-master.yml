@@ -71,8 +71,8 @@ jobs:
                                   --tag ${{ secrets.DOCKER_HUB_USER }}/$DOCKER_HUB_REPO:latest \
                                   --output "type=registry" .
                         
-                        - name: Login to Github docker repository (assume that DOCKER_USERNAME is the same as the github user)
-                          run: echo "${{ secrets.MAINTAINER_TOKEN }}" | docker login docker.pkg.github.com -u "$GITHUB_ACTOR" --password-stdin
+                        - name: Login to Github docker repository (because decentralization)
+                          run: echo "${{ secrets.MAINTAINER_TOKEN }}" | docker login docker.pkg.github.com -u "${{ secrets.MAINTAINER_USER }}" --password-stdin
                           
                         - name: Build against latest tag
                           run: |
@@ -80,5 +80,5 @@ jobs:
                                   --cache-from "type=local,src=/tmp/.buildx-cache" \
                                   --cache-to "type=local,dest=/tmp/.buildx-cache" \
                                   --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
-                                  --tag docker.pkg.github.com/$GITHUB_REPOSITORY/tor:latest \
+                                  --tag docker.pkg.github.com/lncm/docker-tor/tor:latest \
                                   --output "type=registry" .
