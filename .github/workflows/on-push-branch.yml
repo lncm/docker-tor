@@ -10,7 +10,7 @@ on:
 jobs:
         build:
                 runs-on: ubuntu-18.04
-                name: Build and push all the stuff defined in this repo
+                name: Build on push with branch looking like nolim1t*
                 steps:
                         - name: Checkout repo
                           uses: actions/checkout@v2
