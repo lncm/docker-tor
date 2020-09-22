@@ -70,4 +70,8 @@ jobs:
                                   --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
                                   --tag ${{ secrets.DOCKER_HUB_USER }}/$DOCKER_HUB_REPO:latest \
                                   --output "type=registry" .
-                        
+  
+                          - name: Login to GHCR
+                          run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login https://ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+
+
