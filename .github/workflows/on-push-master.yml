@@ -72,6 +72,6 @@ jobs:
                                   --output "type=registry" .
   
                           - name: Login to GHCR
-                          run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login https://ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+                            run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login https://ghcr.io -u "$GITHUB_ACTOR" --password-stdin
 
 
