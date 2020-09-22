@@ -32,6 +32,18 @@ Would Release ```0.4.4.5``` of tor.
 
 As a maintainer, you should also update the documentation too.
 
+### Environment Variables
+
+> **Note** In order to trigger builds This repository uses the following environment variables:
+
+* `DOCKER_HUB_USER` - the username for docker hub
+* `DOCKER_USERNAME` - The username for dockerhub.
+* `DOCKER_PASSWORD` - The password for dockerhub
+* `DOCKER_TOKEN` - the token for docker hub which can push to this projecta (not used currently)
+* `GITHUB_TOKEN` - The token of the current user (this is added automatically)
+* `GITHUB_ACTOR` - The user to login to docker.pkg.github.com
+* `GITHUB_REPOSITORY` - The repository pathname (used for the push to githubs package registry)
+
 ## Running
 
 > this assumes `0.4.4.5` version. But you can substitute this for others
