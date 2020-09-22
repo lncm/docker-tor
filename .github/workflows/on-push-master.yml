@@ -70,7 +70,7 @@ jobs:
                                   --output "type=registry" .
                         
                         - name: Login to Github docker repository (assume that DOCKER_USERNAME is the same as the github user)
-                          run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u "${{ GITHUB_ACTOR }}" --password-stdin
+                          run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u "$GITHUB_ACTOR" --password-stdin
                           
                         - name: Build against latest tag
                           run: |
@@ -78,5 +78,5 @@ jobs:
                                   --cache-from "type=local,src=/tmp/.buildx-cache" \
                                   --cache-to "type=local,dest=/tmp/.buildx-cache" \
                                   --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
-                                  --tag ${{ GITHUB_REPOSITORY }}:latest \
+                                  --tag $GITHUB_REPOSITORY:latest \
                                   --output "type=registry" .
