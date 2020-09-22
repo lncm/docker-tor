@@ -72,7 +72,7 @@ jobs:
                                   --output "type=registry" .
                         
                         - name: Login to Github docker repository (because decentralization)
-                          run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u "$GITHUB_ACTOR" --password-stdin
+                          run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
                           
                         - name: Build against latest tag
                           run: |
@@ -80,5 +80,5 @@ jobs:
                                   --cache-from "type=local,src=/tmp/.buildx-cache" \
                                   --cache-to "type=local,dest=/tmp/.buildx-cache" \
                                   --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
-                                  --tag docker.pkg.github.com/lncm/docker-tor/$DOCKER_HUB_REPO:master-$SHORTSHA \
+                                  --tag ghcr.io/lncm/docker-tor:master-$SHORTSHA \
                                   --output "type=registry" .
