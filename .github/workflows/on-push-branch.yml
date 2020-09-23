@@ -53,13 +53,13 @@ jobs:
                               restore-keys: |
                                   ${{ runner.os }}-buildx-
 
-                        - name: Build against master
+                        - name: Build against branch
                           run: |
                                   docker buildx build \
                                   --cache-from "type=local,src=/tmp/.buildx-cache" \
                                   --cache-to "type=local,dest=/tmp/.buildx-cache" \
                                   --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
-                                  --tag ${{ secrets.DOCKER_HUB_USER }}/$DOCKER_HUB_REPO:master-$SHORTSHA \
+                                  --tag ${{ secrets.DOCKER_HUB_USER }}/$DOCKER_HUB_REPO:$BRANCH-$SHORTSHA \
                                   --output "type=registry" .
 
                         - name: Build against latest tag
@@ -78,17 +78,25 @@ jobs:
                                   --cache-from "type=local,src=/tmp/.buildx-cache" \
                                   --cache-to "type=local,dest=/tmp/.buildx-cache" \
                                   --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
-                                  --output "type=local,dest=./tor-images" . 
+                                  --output "type=local,dest=./tor-images" .
+                                  ls -la ./tor-images
+                                  zip tor-images.zip ./tor-images
+                  
+                        - name: Add as artifacts for the build
+                          uses: actions/upload-artifact@v2
+                          with:
+                                  name: Add all the tor images as an artifact
+                                  path: tor-images.zip
                         
                         - name: Login to GHCR
                           run: echo "${{ secrets.MAINTAINER_TOKEN }}" | docker login https://ghcr.io -u "${{ secrets.MAINTAINER_USER }}" --password-stdin
   
-                        - name: Build against master (GHCR)
+                        - name: Build against branch (GHCR)
                           run: |
                                   docker buildx build \
                                   --cache-from "type=local,src=/tmp/.buildx-cache" \
                                   --cache-to "type=local,dest=/tmp/.buildx-cache" \
                                   --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
-                                  --tag ghcr.io/${{ secrets.DOCKER_HUB_USER }}/docker-tor:master-$SHORTSHA \
+                                  --tag ghcr.io/${{ secrets.DOCKER_HUB_USER }}/docker-tor:$BRANCH-$SHORTSHA \
                                   --output "type=registry" .
 
