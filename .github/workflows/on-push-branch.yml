@@ -80,9 +80,9 @@ jobs:
                                   --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
                                   --output "type=local,dest=./tor-images" .
                                   ls -la ./tor-images
-                                  zip tor-images.zip ./tor-images
+                                  zip -r tor-images.zip ./tor-images
                   
-                        - name: Add as artifacts for the build
+                        - name: Add tor images as downloadable artifacts for the build
                           uses: actions/upload-artifact@v2
                           with:
                                   name: Add all the tor images as an artifact
