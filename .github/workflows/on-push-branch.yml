@@ -71,8 +71,8 @@ jobs:
                                   --tag ${{ secrets.DOCKER_HUB_USER }}/$DOCKER_HUB_REPO:latest \
                                   --output "type=registry" .
                         
-                        - name: Login to GHCR
-                          run: echo "${{ secrets.MAINTAINER_TOKEN }}" | docker login https://ghcr.io -u $GITHUB_ACTOR --password-stdin
+                        - name: Login to GHCR with MAINTAINER_USER and MAINTAINER_TOKEN
+                          run: echo "${{ secrets.MAINTAINER_TOKEN }}" | docker login https://ghcr.io -u "${{ secrets.MAINTAINER_USER }}" --password-stdin
   
                         - name: Build against branch (GHCR)
                           run: |
