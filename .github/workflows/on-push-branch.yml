@@ -71,15 +71,17 @@ jobs:
                                   --tag ${{ secrets.DOCKER_HUB_USER }}/$DOCKER_HUB_REPO:latest \
                                   --output "type=registry" .
                         
-                        - name: Login to GHCR with MAINTAINER_USER and MAINTAINER_TOKEN
-                          run: echo "${{ secrets.MAINTAINER_TOKEN }}" | docker login https://ghcr.io -u "${{ secrets.MAINTAINER_USER }}" --password-stdin
-  
-                        - name: Build against branch (GHCR)
+                        - name: Login and push (to branch specific tag - $BRANCH-$SHORTSHA) to GHCR with MAINTAINER_USER and MAINTAINER_TOKEN if exists
                           run: |
-                                  docker buildx build \
-                                  --cache-from "type=local,src=/tmp/.buildx-cache" \
-                                  --cache-to "type=local,dest=/tmp/.buildx-cache" \
-                                  --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
-                                  --tag ghcr.io/${{ secrets.DOCKER_HUB_USER }}/docker-tor:$BRANCH-$SHORTSHA \
-                                  --output "type=registry" .
+                                  if [[ ! -z ${{ secrets.MAINTAINER_TOKEN }} ]] && [[ ! -z ${{ secrets.MAINTAINER_USER }} ]]; then  
+                                        echo "${{ secrets.MAINTAINER_TOKEN }}" | docker login https://ghcr.io -u "${{ secrets.MAINTAINER_USER }}" --password-stdin
+                                        docker buildx build \
+                                                --cache-from "type=local,src=/tmp/.buildx-cache" \
+                                                --cache-to "type=local,dest=/tmp/.buildx-cache" \
+                                                --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
+                                                --tag ghcr.io/${{ secrets.DOCKER_HUB_USER }}/docker-tor:$BRANCH-$SHORTSHA \
+                                                --output "type=registry" .
+                                  else
+                                        echo "MAINTAINER_TOKEN and MAINTAINER_USER do no exist! Skipping!"
+                                  fi
 
