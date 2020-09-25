@@ -44,6 +44,8 @@ As a maintainer, you should also update the documentation too.
 * `GITHUB_TOKEN` - The token of the current user (this is added automatically)
 * `GITHUB_ACTOR` - The user to login to docker.pkg.github.com
 * `GITHUB_REPOSITORY` - The repository pathname (used for the push to githubs package registry)
+* `MAINTAINER_USER` - This is for utilizing the github container registry
+* `MAINTAINER_TOKEN` - This is for utilizing the github container registry
 
 ## Running
 

@@ -5,12 +5,12 @@ env:
 on:
     push:
         branches:
-            - master
+            - 'nolim1t-*'
 
 jobs:
         build:
                 runs-on: ubuntu-18.04
-                name: Build and push all the stuff defined in this repo
+                name: Build on push with branch looking like nolim1t*
                 steps:
                         - name: Checkout repo
                           uses: actions/checkout@v2
@@ -53,13 +53,13 @@ jobs:
                               restore-keys: |
                                   ${{ runner.os }}-buildx-
 
-                        - name: Build against master
+                        - name: Build against branch
                           run: |
                                   docker buildx build \
                                   --cache-from "type=local,src=/tmp/.buildx-cache" \
                                   --cache-to "type=local,dest=/tmp/.buildx-cache" \
                                   --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
-                                  --tag ${{ secrets.DOCKER_HUB_USER }}/$DOCKER_HUB_REPO:master-$SHORTSHA \
+                                  --tag ${{ secrets.DOCKER_HUB_USER }}/$DOCKER_HUB_REPO:$BRANCH-$SHORTSHA \
                                   --output "type=registry" .
 
                         - name: Build against latest tag
@@ -70,8 +70,8 @@ jobs:
                                   --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
                                   --tag ${{ secrets.DOCKER_HUB_USER }}/$DOCKER_HUB_REPO:latest \
                                   --output "type=registry" .
-
-                        - name: Login and push (master to GHCR with MAINTAINER_USER and MAINTAINER_TOKEN if exists
+                        
+                        - name: Login and push (to branch specific tag - $BRANCH-$SHORTSHA) to GHCR with MAINTAINER_USER and MAINTAINER_TOKEN if exists
                           run: |
                                   if [[ ! -z ${{ secrets.MAINTAINER_TOKEN }} ]] && [[ ! -z ${{ secrets.MAINTAINER_USER }} ]]; then  
                                         echo "${{ secrets.MAINTAINER_TOKEN }}" | docker login https://ghcr.io -u "${{ secrets.MAINTAINER_USER }}" --password-stdin
@@ -79,16 +79,9 @@ jobs:
                                                 --cache-from "type=local,src=/tmp/.buildx-cache" \
                                                 --cache-to "type=local,dest=/tmp/.buildx-cache" \
                                                 --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
-                                                --tag ghcr.io/${{ secrets.DOCKER_HUB_USER }}/$DOCKER_HUB_REPO:master-$SHORTSHA \
+                                                --tag ghcr.io/${{ secrets.DOCKER_HUB_USER }}/docker-tor:$BRANCH-$SHORTSHA \
                                                 --output "type=registry" .
-                                        docker buildx build \
-                                                --cache-from "type=local,src=/tmp/.buildx-cache" \
-                                                --cache-to "type=local,dest=/tmp/.buildx-cache" \
-                                                --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
-                                                --tag ghcr.io/${{ secrets.DOCKER_HUB_USER }}/$DOCKER_HUB_REPO:latest \
-                                                --output "type=registry" .                                                 
                                   else
                                         echo "MAINTAINER_TOKEN and MAINTAINER_USER do no exist! Skipping!"
                                   fi
-  
 
