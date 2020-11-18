@@ -1,6 +1,7 @@
 name: Docker build on tag
 env:
         DOCKER_CLI_EXPERIMENTAL: enabled
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         TAG_FMT: '^refs/tags/(((.?[0-9]+){3,4}))$'
 
 on:

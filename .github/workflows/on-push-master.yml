@@ -1,6 +1,7 @@
 name: Docker build on push
 env:
         DOCKER_CLI_EXPERIMENTAL: enabled
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
 on:
     push:
