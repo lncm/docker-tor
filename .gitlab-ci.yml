@@ -1,0 +1,133 @@
+variables:
+  CI_BUILD_IMAGE: "registry.gitlab.com/ericvh/docker-buildx-qemu"
+  CI_BUILDX_ARCHS: "linux/amd64,linux/arm64,linux/386,linux/arm/v7,linux/arm/v6"
+
+.build:
+    image: $CI_BUILD_IMAGE
+    stage: build
+    services:
+        - name: docker:dind
+          entrypoint: ["env", "-u", "DOCKER_HOST"]
+          command: ["dockerd-entrypoint.sh"]
+    variables:
+        DOCKER_HOST: tcp://docker:2375/
+        DOCKER_DRIVER: overlay2
+        DOCKER_TLS_CERTDIR: ""
+    before_script:
+        - |
+          echo "CI_BUILD_IMAGE is $CI_BUILD_IMAGE"
+          echo "CI_COMMIT_REF_NAME is $CI_COMMIT_REF_NAME"
+          echo "CI_REGISTRY_IMAGE is $CI_REGISTRY_IMAGE"
+          echo "CI_COMMIT_REF_SLUG is $CI_COMMIT_REF_SLUG"
+          echo "CI_COMMIT_SHA is $CI_COMMIT_SHAE"
+          echo "CI_REGISTRY is $CI_REGISTRY"
+          echo "CI_PROJECT_NAMESPACE is $CI_PROJECT_NAMESPACE"
+          echo "CI_PROJECT_NAME is $CI_PROJECT_NAME"
+          if [[ -z "$CI_COMMIT_TAG" ]]; then
+            echo "Commit tag not set"
+            export CI_APPLICATION_REPOSITORY=${CI_APPLICATION_REPOSITORY:-$CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG}
+            echo "CI_APPLICATION_REPOSITORY is $CI_APPLICATION_REPOSITORY"
+            export CI_APPLICATION_TAG=${CI_APPLICATION_TAG:-$CI_COMMIT_SHA}
+          else
+            echo "CI_COMMIT_TAG is $CI_COMMIT_TAG"
+            echo "CI_REGISTRY_IMAGE is $CI_REGISTRY_IMAGE"
+            export CI_APPLICATION_REPOSITORY=${CI_APPLICATION_REPOSITORY:-$CI_REGISTRY_IMAGE}
+            echo "CI_APPLICATION_REPOSITORY is $CI_APPLICATION_REPOSITORY"
+            export CI_APPLICATION_TAG=${CI_APPLICATION_TAG:-$CI_COMMIT_TAG}
+          fi 
+        - |
+          if [[ -z $DOCKER_USERNAME ]] && [[ -z $DOCKER_PASSWORD ]]; then
+            echo "Setting gitlab containers (Username $CI_REGISTRY_USER) credentials"
+            echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+          else
+            echo "Setting docker username ($DOCKER_USERNAME) and password"
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+          fi
+
+build:buildx-master:
+    extends: .build
+    only:
+        refs:
+            - master
+        variables:
+            - $CI_BUILDX_ARCHS
+    script:
+        - update-binfmts --enable
+        - docker buildx create --driver docker-container --use
+        - docker buildx inspect --bootstrap
+        - docker buildx ls
+        - |
+          if [[ -z $DOCKER_USERNAME ]] && [[ -z $DOCKER_PASSWORD ]]; then
+            echo "Build to gitlab only"
+            docker buildx build --platform $CI_BUILDX_ARCHS --progress plain --pull -t "$CI_REGISTRY_IMAGE" --push .
+          else
+            echo "Build to docker hub"
+            if [[ ! -z $CI_COMMIT_TAG ]]; then
+              echo "Building to tag ($CI_COMMIT_TAG)"
+              docker buildx build \
+              --platform $CI_BUILDX_ARCHS \
+              --tag $DOCKER_USERNAME/buildx-test:$CI_COMMITTAG \
+              --output "type=registry" .
+            else
+              echo "Building to latest"
+               docker buildx build \
+              --platform $CI_BUILDX_ARCHS \
+              --tag $DOCKER_USERNAME/$CI_PROJECT_NAME:latest \
+              --output "type=registry" .           
+            fi
+          fi
+
+build:buildx-tags-or-branch:
+    extends: .build
+    only:
+      variables:
+        - $CI_BUILDX_ARCHS
+    except:
+      refs:
+        - master
+    script:
+      - update-binfmts --enable
+      - |
+        echo "Variables set by CI"
+        echo "CI_APPLICATION_TAG: $CI_APPLICATION_TAG"
+        echo "CI_COMMIT_TAG: $CI_COMMIT_TAG"
+        echo "CI_COMMIT_BRANCH: $CI_COMMIT_BRANCH"
+        echo "CI_COMMIT_SHORT_SHA: $CI_COMMIT_SHORT_SHA"
+      - |
+          echo "Setup buildx"
+          docker buildx inspect --bootstrap
+          docker buildx ls          
+          docker buildx create --driver docker-container --use
+          
+          if [[ -z $DOCKER_USERNAME ]] && [[ -z $DOCKER_PASSWORD ]]; then
+            echo "Build to gitlab containers"
+            if [ ! -z  $CI_COMMIT_TAG ]; then
+              echo "Building $CI_COMMIT_TAG (tag mode)"
+              echo "Repo to push to $CI_APPLICATION_REPOSITORY:$CI_COMMIT_TAG-$CI_COMMIT_SHORT_SHA"
+              docker buildx build --platform $CI_BUILDX_ARCHS --progress plain --pull -t "$CI_APPLICATION_REPOSITORY:$CI_COMMIT_TAG-$CI_COMMIT_SHORT_SHA" --push .
+            else
+              echo "Not building by tag as CI_COMMIT_TAG is empty"
+            fi
+            if [ ! -z $CI_COMMIT_BRANCH ]; then
+              echo "Building $CI_COMMIT_BRANCH (branch mode)"
+              echo "Repo to push to $CI_APPLICATION_REPOSITORY:$CI_COMMIT_SHORT_SHA"
+              docker buildx build --platform $CI_BUILDX_ARCHS --progress plain --pull -t "$CI_APPLICATION_REPOSITORY:$CI_COMMIT_SHORT_SHA" --push .
+            else
+              echo "Not building by branch as CI_COMMIT_BRANCH is empty"
+            fi
+          else
+            echo "Build to dockerhub"
+            if [[ ! -z $CI_COMMIT_TAG ]]; then
+              echo "Building to tag ($CI_COMMIT_TAG)"
+              docker buildx build \
+              --platform $CI_BUILDX_ARCHS \
+              --tag $DOCKER_USERNAME/$CI_PROJECT_NAME:$CI_COMMITTAG \
+              --output "type=registry" .
+            else
+              echo "Building to latest"
+               docker buildx build \
+              --platform $CI_BUILDX_ARCHS \
+              --tag $DOCKER_USERNAME/$CI_PROJECT_NAME:latest \
+              --output "type=registry" .           
+            fi            
+          fi
