@@ -5,6 +5,7 @@ variables:
 .build:
     image: $CI_BUILD_IMAGE
     stage: build
+    timeout: 5h 30m
     services:
         - name: docker:dind
           entrypoint: ["env", "-u", "DOCKER_HOST"]
