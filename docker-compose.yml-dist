@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
     tor:
-        image: lncm/tor:0.4.4.7
+        image: lncm/tor:0.4.5.5
         container_name: tor
         volumes:
             - ${PWD}/data:/etc/tor
@@ -10,7 +10,4 @@ services:
             - ${PWD}/run:/var/run/tor
         restart: on-failure
         network_mode: host
-        ports:
-            - "9050:9050"
-            - "9051:9051"
         stop_grace_period: 10m30s

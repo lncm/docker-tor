@@ -8,7 +8,7 @@ ARG DIR=/data
 FROM debian:buster-slim as preparer-base
 
 RUN apt update
-RUN apt -y install gnupg
+RUN apt -y install gpg gpg-agent
 
 # Add tor key
 ENV KEYS 7A02B3521DC75C542BA015456AFEE6D49E92B601
