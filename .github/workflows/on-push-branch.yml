@@ -17,9 +17,9 @@ jobs:
 
                         - name: Set env variables
                           run: |
-                                  echo "::set-env name=BRANCH::$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//-/g')"
-                                  echo "::set-env name=SHORTSHA::$(git rev-parse --short HEAD)"
-                                  echo "::set-env name=DOCKER_HUB_REPO::tor"
+                                  echo "BRANCH=$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//-/g')" >> $GITHUB_ENV
+                                  echo "SHORTSHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+                                  echo "DOCKER_HUB_REPO=tor" >> $GITHUB_ENV
 
                         - name: Show set env variables
                           run: |
