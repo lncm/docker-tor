@@ -75,7 +75,7 @@ This assumes you have a directory called `data` and a directory called `run` in 
 
 ### Docker-compose
 
-For your convenience, we have a [docker-compose](https://github.com/lncm/docker-tor/blob/master/docker-compose.yml) file available for you to use too.
+For your convenience, we have a [docker-compose](https://github.com/lncm/docker-tor/blob/master/docker-compose.yml-dist) file available for you to use too.
 
 By default this uses host networking and requires `data` and `run` folders to be created and with a [valid torrc file](https://github.com/torproject/tor/blob/master/src/config/torrc.sample.in) 
 
