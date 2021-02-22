@@ -55,7 +55,7 @@ As a maintainer, you should also update the documentation too.
 
 ### Command Line
 
-To run this from the command line you would need to create an example [config file](https://github.com/torproject/tor/blob/master/src/config/torrc.sample.in)
+To run this from the command line you would need to create an example [config file](https://github.com/torproject/tor/blob/master/src/config/torrc.sample.in) or use the [cut down config file](https://raw.githubusercontent.com/lncm/docker-tor/master/torrc-dist) in this repo.
 
 Then you would need to run:
 
