@@ -15,6 +15,7 @@ TOR service as a docker container, supporting multiple platforms/architectures (
 > **NOTE:** For an always up-to-date list see: https://hub.docker.com/r/lncm/tor/tags
 
 * `latest`
+* [`0.4.4.8`](https://hub.docker.com/layers/lncm/tor/0.4.4.8/images/sha256-701ea4a103327422ec560882ce4cf454130bca773a44fbc6d15070118d81f184) [`0.0.5.7`](https://hub.docker.com/layers/lncm/tor/0.4.5.7/images/sha256-5a00971a00143b46e57fd2ce577fe54ed6a5450fa9f463f6876b3616b5dc1dbb)
 * [`0.4.5.6`](https://gitweb.torproject.org/tor.git/plain/ChangeLog?h=tor-0.4.5.6)
 * `0.4.4.7`
 * `0.4.5.5-rc` `0.4.5.3-rc`
@@ -30,10 +31,10 @@ To grab a new version simply just tag a new version
 Example:
 
 ```bash
-git tag -s 0.4.5.6
+git tag -s 0.4.5.7
 ```
 
-Would Release ```0.4.5.6``` of tor.
+Would Release ```0.4.5.7``` of tor.
 
 As a maintainer, you should also update the documentation too.
 
@@ -53,7 +54,7 @@ As a maintainer, you should also update the documentation too.
 
 ## Running
 
-> this assumes `0.4.5.6` version. But you can substitute this for others
+> this assumes `0.4.5.7` version. But you can substitute this for others
 
 ### Command Line
 
@@ -68,7 +69,7 @@ docker run --rm -d \
             -v $PWD/data:/etc/tor \
             -v $PWD/data:/var/lib/tor \
             -v $PWD/run:/var/run/tor \
-            lncm/tor:0.4.5.6
+            lncm/tor:0.4.5.7
 
 ```
 This assumes you have a directory called `data` and a directory called `run` in the current `$PWD`. And the config file `torrc` should live in data.
@@ -84,7 +85,7 @@ By default this uses host networking and requires `data` and `run` folders to be
 ```bash
 docker run --rm \
             --name tor \
-            lncm/tor:0.4.5.6 \
+            lncm/tor:0.4.5.7 \
             --hash-password passwordtogenerate
 ```
 
