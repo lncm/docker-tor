@@ -1,0 +1,19 @@
+# This is a sample configuration
+
+# Ports
+SocksPort   127.0.0.1:9050
+ControlPort 127.0.0.1:9051
+
+# Default Password (Please change)
+# Refer to https://github.com/lncm/docker-tor#generating-tor-passwords
+HashedControlPassword 16:C171CBB3DECE55156066E90509F28E3E5FDFACFB6211701926A200E70D
+
+# SSH v3
+HiddenServiceDir /var/lib/tor/ssh
+HiddenServiceVersion 3
+HiddenServicePort 22 127.0.0.1:22
+
+# Bitcoin P2P v3
+HiddenServiceDir /var/lib/tor/bitcoin-p2p
+HiddenServiceVersion 3
+HiddenServicePort 8333 127.0.0.1:8333
