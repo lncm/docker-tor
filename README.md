@@ -15,7 +15,7 @@ TOR service as a docker container, supporting multiple platforms/architectures (
 > **NOTE:** For an always up-to-date list see: https://hub.docker.com/r/lncm/tor/tags
 
 * `latest`
-* [`0.4.4.8`](https://hub.docker.com/layers/lncm/tor/0.4.4.8/images/sha256-701ea4a103327422ec560882ce4cf454130bca773a44fbc6d15070118d81f184) [`0.0.5.7`](https://hub.docker.com/layers/lncm/tor/0.4.5.7/images/sha256-5a00971a00143b46e57fd2ce577fe54ed6a5450fa9f463f6876b3616b5dc1dbb)
+* [`0.4.4.8`](https://hub.docker.com/layers/lncm/tor/0.4.4.8/images/sha256-701ea4a103327422ec560882ce4cf454130bca773a44fbc6d15070118d81f184) [`0.4.5.7`](https://hub.docker.com/layers/lncm/tor/0.4.5.7/images/sha256-5a00971a00143b46e57fd2ce577fe54ed6a5450fa9f463f6876b3616b5dc1dbb)
 * [`0.4.5.6`](https://gitweb.torproject.org/tor.git/plain/ChangeLog?h=tor-0.4.5.6)
 * `0.4.4.7`
 * `0.4.5.5-rc` `0.4.5.3-rc`
