@@ -1,4 +1,4 @@
-# TOR as a Docker container
+# Tor as a Docker container
 
 
 [![Build on push](https://github.com/lncm/docker-tor/workflows/Docker%20build%20on%20push/badge.svg)](https://github.com/lncm/docker-tor/actions?query=workflow%3A%22Docker+build+on+push%22)
@@ -6,7 +6,7 @@
 ![Version](https://img.shields.io/github/v/release/lncm/docker-tor?sort=semver) 
 ![Docker Pulls Count](https://img.shields.io/docker/pulls/lncm/tor.svg?style=flat)
 
-TOR service as a docker container, supporting multiple platforms/architectures (armv6, armv7, arm64, amd64) the LNCM way (inclusive) 
+Tor service as a docker container, supporting multiple platforms/architectures (armv6, armv7, arm64, amd64) the LNCM way (inclusive) 
 
 ## Usage instructions
 
@@ -80,7 +80,7 @@ For your convenience, we have a [docker-compose](https://github.com/lncm/docker-
 
 By default this uses host networking and requires `data` and `run` folders to be created and with a [valid torrc file](https://github.com/torproject/tor/blob/master/src/config/torrc.sample.in) 
 
-### Generating TOR Passwords
+### Generating Tor Passwords
 
 ```bash
 docker run --rm \
