@@ -5,7 +5,7 @@ ARG UID=1000
 
 ARG DIR=/data
 
-FROM debian:buster-slim as preparer-base
+FROM debian:11-slim as preparer-base
 
 RUN apt update
 RUN apt -y install gpg gpg-agent
@@ -33,7 +33,7 @@ RUN tar -xzf "/tor-$VERSION.tar.gz" && \
 
 FROM preparer-release AS preparer
 
-FROM debian:buster-slim as builder
+FROM debian:11-slim as builder
 
 ARG VERSION
 
@@ -53,7 +53,7 @@ RUN ls -la /etc/tor
 RUN ls -la /var/lib
 RUN ls -la /var/lib/tor
 
-FROM debian:buster-slim as final
+FROM debian:11-slim as final
 
 ARG VERSION
 ARG USER
