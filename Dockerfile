@@ -1,4 +1,4 @@
-ARG VERSION=0.4.6.8
+ARG VERSION=0.4.7.7
 
 ARG USER=toruser
 ARG UID=1000
@@ -8,12 +8,13 @@ ARG DIR=/data
 FROM debian:11-slim as preparer-base
 
 RUN apt update
-RUN apt -y install gpg gpg-agent
+RUN apt -y install gpg gpg-agent curl
 
 # Add tor key
-ENV KEYS 7A02B3521DC75C542BA015456AFEE6D49E92B601
+ENV KEYS 514102454D0A87DB0767A1EBBE6A0531C18A9179 B74417EDDF22AC9F9E90F49142E86A2A11F48D36
 
-RUN gpg  --keyserver keyserver.ubuntu.com  --recv-keys $KEYS
+#RUN curl -s https://openpgpkey.torproject.org/.well-known/openpgpkey/torproject.org/hu/kounek7zrdx745qydx6p59t9mqjpuhdf |gpg --import -
+RUN gpg --keyserver keyserver.ubuntu.com --recv-keys $KEYS 
 
 RUN gpg --list-keys | tail -n +3 | tee /tmp/keys.txt && \
     gpg --list-keys $KEYS | diff - /tmp/keys.txt
@@ -22,11 +23,12 @@ FROM preparer-base AS preparer-release
 
 ARG VERSION
 
-ADD https://dist.torproject.org/tor-$VERSION.tar.gz.asc ./
+ADD https://dist.torproject.org/tor-$VERSION.tar.gz.sha256sum.asc ./
+ADD https://dist.torproject.org/tor-$VERSION.tar.gz.sha256sum ./
 ADD https://dist.torproject.org/tor-$VERSION.tar.gz ./
 
-RUN gpg --verify tor-$VERSION.tar.gz.asc
-
+RUN gpg --verify tor-$VERSION.tar.gz.sha256sum.asc
+RUN sha256sum -c tor-$VERSION.tar.gz.sha256sum
 # Extract
 RUN tar -xzf "/tor-$VERSION.tar.gz" && \
     rm  -f   "/tor-$VERSION.tar.gz"
