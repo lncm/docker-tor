@@ -15,6 +15,7 @@ Tor service as a docker container, supporting multiple platforms/architectures (
 > **NOTE:** For an always up-to-date list see: https://hub.docker.com/r/lncm/tor/tags
 
 * `latest`
+* [`0.4.7.7`](https://hub.docker.com/layers/tor/lncm/tor/0.4.7.7/images/sha256-35c3e00eb757ed9b1c04ded2245a15ab52ff7bf626b78b07febded4fd8bc435f?context=explore)
 * `0.4.6.8`
 * `0.4.5.11` 
 * [`0.4.7.1-alpha`](https://hub.docker.com/layers/lncm/tor/0.4.7.1-alpha/images/sha256-8fda0d219af1846f2ef6f083c62783bcd1d54b04246c835b561df1238dbe091c?context=explore)
@@ -52,8 +53,6 @@ As a maintainer, you should also update the documentation too.
 * `GITHUB_TOKEN` - The token of the current user (this is added automatically)
 * `GITHUB_ACTOR` - The user to login to docker.pkg.github.com
 * `GITHUB_REPOSITORY` - The repository pathname (used for the push to githubs package registry)
-* `MAINTAINER_USER` - This is for utilizing the github container registry
-* `MAINTAINER_TOKEN` - This is for utilizing the github container registry
 
 ## Running
 
