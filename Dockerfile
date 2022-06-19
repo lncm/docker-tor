@@ -11,7 +11,7 @@ RUN apt update
 RUN apt -y install gpg gpg-agent curl
 
 # Add tor key
-ENV KEYS 514102454D0A87DB0767A1EBBE6A0531C18A9179 B74417EDDF22AC9F9E90F49142E86A2A11F48D36
+ENV KEYS 514102454D0A87DB0767A1EBBE6A0531C18A9179 B74417EDDF22AC9F9E90F49142E86A2A11F48D36 7A02B3521DC75C542BA015456AFEE6D49E92B601
 
 #RUN curl -s https://openpgpkey.torproject.org/.well-known/openpgpkey/torproject.org/hu/kounek7zrdx745qydx6p59t9mqjpuhdf |gpg --import -
 RUN gpg --keyserver keyserver.ubuntu.com --recv-keys $KEYS 
