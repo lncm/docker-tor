@@ -15,6 +15,7 @@ Tor service as a docker container, supporting multiple platforms/architectures (
 > **NOTE:** For an always up-to-date list see: https://hub.docker.com/r/lncm/tor/tags
 
 * `latest`
+* `0.4.7.9`
 * [`0.4.7.8`](https://hub.docker.com/layers/tor/lncm/tor/0.4.7.8/images/sha256-98269e8123cdeae9dfcb85d9a148d6b59181034de1ba5091d8e26d84af739f28?context=explore)
 * [`0.4.7.7`](https://hub.docker.com/layers/tor/lncm/tor/0.4.7.7/images/sha256-35c3e00eb757ed9b1c04ded2245a15ab52ff7bf626b78b07febded4fd8bc435f?context=explore)
 * `0.4.6.8`
@@ -36,10 +37,10 @@ To grab a new version simply just tag a new version
 Example:
 
 ```bash
-git tag -s 0.4.7.8
+git tag -s 0.4.7.9
 ```
 
-Would Release ```0.4.7.8``` of tor.
+Would Release ```0.4.7.9``` of tor.
 
 As a maintainer, you should also update the documentation too.
 
@@ -57,7 +58,7 @@ As a maintainer, you should also update the documentation too.
 
 ## Running
 
-> this assumes `0.4.7.8` version. But you can substitute this for others
+> this assumes `0.4.7.9` version. But you can substitute this for others
 
 ### Command Line
 
@@ -72,7 +73,7 @@ docker run --rm -d \
             -v $PWD/data:/etc/tor \
             -v $PWD/data:/var/lib/tor \
             -v $PWD/run:/var/run/tor \
-            lncm/tor:0.4.7.8
+            lncm/tor:0.4.7.9
 
 ```
 This assumes you have a directory called `data` and a directory called `run` in the current `$PWD`. And the config file `torrc` should live in data.
